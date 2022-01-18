@@ -8,13 +8,21 @@ python predict.py --exp_name=cls_modelnet --model=dgcnn_cls --test_area=all --da
 
 ## Activation and Gradient extraction
 
+python actGradExtract.py
 
 ## tsne
 
 
 ## gradcam
 
+python explain_gradcam.py
+
+python explain_activation.py
+
+### bubble visualization
 
 
+
+use of mitsuba0.5 to render
 
 
