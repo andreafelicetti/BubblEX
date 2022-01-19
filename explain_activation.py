@@ -204,98 +204,98 @@ def extract_cls(args):
             #         print(i)
             #         i += 1
 
-            #plot gradcam
-            for cls in range(0, 40):
-                i=0
-                test_loader = deepcopy(zip(objs, labs))
-                for data, gt in test_loader:
+            # #plot gradcam
+            # for cls in range(0, 40):
+            #     i=0
+            #     test_loader = deepcopy(zip(objs, labs))
+            #     for data, gt in test_loader:
             
-                    a=np.load("results/actGradExtraction/act_conv5_{}.npy".format(idx[i]))
-                    g=np.load("results/actGradExtraction/grad_conv5_{}_tg{}.npy".format(idx[i], cls))
+            #         a=np.load("results/actGradExtraction/act_conv5_{}.npy".format(idx[i]))
+            #         g=np.load("results/actGradExtraction/grad_conv5_{}_tg{}.npy".format(idx[i], cls))
             
-                    ag= a*g
-                    agM= np.median(ag,axis=1)
+            #         ag= a*g
+            #         agM= np.median(ag,axis=1)
             
-                    # aM= np.median(a,axis=1)
-                    # gM = np.median(g, axis=1)
-                    # agM = aM * gM
+            #         # aM= np.median(a,axis=1)
+            #         # gM = np.median(g, axis=1)
+            #         # agM = aM * gM
             
-                    # gM = np.median(g, axis=1)
-                    # ag = a * gM[:,np.newaxis,:]
-                    # agM = np.median(ag, axis=1)
+            #         # gM = np.median(g, axis=1)
+            #         # ag = a * gM[:,np.newaxis,:]
+            #         # agM = np.median(ag, axis=1)
             
-                    # aM = np.median(a, axis=1)
-                    # ag = g * aM[:,np.newaxis,:]
-                    # agM = np.median(ag, axis=1)
+            #         # aM = np.median(a, axis=1)
+            #         # ag = g * aM[:,np.newaxis,:]
+            #         # agM = np.median(ag, axis=1)
             
-                    var = agM[0]
+            #         var = agM[0]
             
-                    min_v = np.min(var)
-                    max_v = np.max(var)
-                    gt = labs[i]
-                    pred = preds[i]
+            #         min_v = np.min(var)
+            #         max_v = np.max(var)
+            #         gt = labs[i]
+            #         pred = preds[i]
             
-                    data[:, [1, 2]] = data[:, [2, 1]]
+            #         data[:, [1, 2]] = data[:, [2, 1]]
             
-                    # varst = (var - min_v) / (max_v - min_v)  # +0.000001)
+            #         # varst = (var - min_v) / (max_v - min_v)  # +0.000001)
             
-                    # simmetrizzazione
-                    abs_max_v = max(abs(min_v), abs(max_v))
-                    min_v = -abs_max_v
-                    max_v = abs_max_v
-                    varst = (var - min_v) / (max_v - min_v)  # +0.000001)
+            #         # simmetrizzazione
+            #         abs_max_v = max(abs(min_v), abs(max_v))
+            #         min_v = -abs_max_v
+            #         max_v = abs_max_v
+            #         varst = (var - min_v) / (max_v - min_v)  # +0.000001)
             
-                    ply = data  # numpy.stack((data, axis=-1)
-                    pcd = o3d.geometry.PointCloud()
+            #         ply = data  # numpy.stack((data, axis=-1)
+            #         pcd = o3d.geometry.PointCloud()
             
-                    cmap = plt.cm.get_cmap("jet")
-                    varst = cmap(varst)[:, :3]
+            #         cmap = plt.cm.get_cmap("jet")
+            #         varst = cmap(varst)[:, :3]
             
-                    pcd.points = o3d.utility.Vector3dVector(ply)
-                    pcd.colors = o3d.utility.Vector3dVector(varst)
+            #         pcd.points = o3d.utility.Vector3dVector(ply)
+            #         pcd.colors = o3d.utility.Vector3dVector(varst)
             
-                    o3d.io.write_point_cloud("results/gradcamPlot/ag_median_{}_tg{}_gt{}_p{}.ply".format(idx[i], cls, gt, pred), pcd)
+            #         o3d.io.write_point_cloud("results/gradcamPlot/ag_median_{}_tg{}_gt{}_p{}.ply".format(idx[i], cls, gt, pred), pcd)
             
-                    print(i)
-                    i += 1
+            #         print(i)
+            #         i += 1
 
-            # #plot only activation
-            # i=0
-            # for data, gt in test_loader:
-            #     a = np.load("results/actGradExtraction/act_conv5_{}.npy".format(idx[i]))
+            #plot only activation
+            i=0
+            for data, gt in test_loader:
+                a = np.load("results/actGradExtraction/act_conv5_{}.npy".format(idx[i]))
             
-            #     aM = np.median(a, axis=1)
-            #     var = aM[0]
+                aM = np.median(a, axis=1)
+                var = aM[0]
             
-            #     min_v = np.min(var)
-            #     max_v = np.max(var)
-            #     gt = labs[i]
-            #     pred = preds[i]
+                min_v = np.min(var)
+                max_v = np.max(var)
+                gt = labs[i]
+                pred = preds[i]
             
-            #     data[:, [1, 2]] = data[:, [2, 1]]
+                data[:, [1, 2]] = data[:, [2, 1]]
             
-            #     # varst = (var - min_v) / (max_v - min_v)  # +0.000001)
+                # varst = (var - min_v) / (max_v - min_v)  # +0.000001)
             
-            #     # simmetrizzazione
-            #     abs_max_v= max(abs(min_v),abs(max_v))
-            #     min_v= -abs_max_v
-            #     max_v = abs_max_v
-            #     varst = (var - min_v) / (max_v - min_v)  # +0.000001)
+                # simmetrizzazione
+                abs_max_v= max(abs(min_v),abs(max_v))
+                min_v= -abs_max_v
+                max_v = abs_max_v
+                varst = (var - min_v) / (max_v - min_v)  # +0.000001)
             
             
-            #     ply = data  # numpy.stack((data, axis=-1)
-            #     pcd = o3d.geometry.PointCloud()
+                ply = data  # numpy.stack((data, axis=-1)
+                pcd = o3d.geometry.PointCloud()
             
-            #     cmap = plt.cm.get_cmap("jet")
-            #     varst = cmap(varst)[:, :3]
+                cmap = plt.cm.get_cmap("jet")
+                varst = cmap(varst)[:, :3]
             
-            #     pcd.points = o3d.utility.Vector3dVector(ply)
-            #     pcd.colors = o3d.utility.Vector3dVector(varst)
+                pcd.points = o3d.utility.Vector3dVector(ply)
+                pcd.colors = o3d.utility.Vector3dVector(varst)
             
-            #     o3d.io.write_point_cloud("results/activationPlot/a_median_{}_gt{}_p{}.ply".format(idx[i], gt, pred), pcd)
+                o3d.io.write_point_cloud("results/activationPlot/a_median_{}_gt{}_p{}.ply".format(idx[i], gt, pred), pcd)
             
-            #     print(i)
-            #     i += 1
+                print(i)
+                i += 1
 
 
 class args(object):
