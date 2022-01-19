@@ -45,11 +45,13 @@ python explain_gradcam.py
 
 ### bubble visualization
 
+convert ply file to renderizable xml file
+
 ```
 python ply2xmlRenderFile.py
 ```
 
-use of mitsuba0.5 to render. https://www.mitsuba-renderer.org/
+use of mitsuba 0.5 to render. https://www.mitsuba-renderer.org/
 
 
 If you want visualize also activation...
